@@ -1,0 +1,21 @@
+.border-bottom-1px,
+.border-left-1px,
+.border-right-1px,
+.border-top-1px {
+    position: relative;
+}
+
+.border-bottom-1px:after,
+.border-bottom-1px:before,
+.border-left-1px:after,
+.border-left-1px:before,
+.border-right-1px:after,
+.border-right-1px:before,
+.border-top-1px:after,
+.border-top-1px:before {
+    content: "";
+    display: block;
+    position: absolute;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0
+}
