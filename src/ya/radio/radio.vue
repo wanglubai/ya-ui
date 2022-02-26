@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="ya-radio">
     <input
+      class="ya-radio-input"
       type="radio"
       :name="dataVo.id"
       :value="dataVo.label"
       v-model="dataVo.state"
     />
-    <div>{{ dataVo.label }}</div>
+    <div class="ya-radio-ui"></div>
+    <div class="ya-radio-label">{{ dataVo.label }}</div>
   </div>
 </template>
 
@@ -19,7 +21,7 @@ export default {
       default() {
         return {
           label: 'label',
-          state: 'label'
+          state: 'true'
         };
       }
     }
@@ -31,12 +33,10 @@ export default {
   },
   computed: {},
   watch: {
-    // 'dataVo.label': {
-    //   handler: function () {
-    //     console.log(this.dataVo);
-    //     this.$emit('change', this.dataVo);
-    //   }
-    // }
+    'dataVo.state'(e){
+      console.log(e);
+      console.log(this.dataVo);
+    }
   },
   methods: {},
   created() {},
@@ -52,4 +52,40 @@ export default {
 </script>
 
 <style lang='less' scoped>
+@font-color: #666;
+@border-color: #ccc;
+@bg-color: #fff;
+@selected-color: #fc9153;
+
+.ya-radio {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  .ya-radio-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ff0000;
+  }
+
+  .ya-radio-ui {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.42em;
+    background-color: @bg-color;
+    border: 1px solid @border-color;
+  }
+}
+.ya-radio-checked .ya-radio-ui {
+  border: 1px solid rgba(red, green, blue, 0);
+  background-color: @selected-color;
+}
+.ya-radio-disabled .ya-radio-ui {
+  opacity: 0.4;
+}
 </style>

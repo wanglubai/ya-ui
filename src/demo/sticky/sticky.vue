@@ -1,43 +1,35 @@
 <template>
   <div class="sticky">
-    <div class="sticky-c">
-      <ya-sticky>
-        <ya-scroll ref="scroll">
-          <div class="sticky-list">
-            <template v-for="(item, i) in list">
-              <ya-sticky-ele :vo="item.sticky" :key="i">
-                <template>
-                  <div class="ya-sticky-ele-title">
-                    {{ item.sticky.title }}
-                  </div>
-                </template>
-              </ya-sticky-ele>
-              <div :key="i + 'txt'" class="content">
-                <div class="txt">{{ item.txt }}</div>
-              </div>
-            </template>
-          </div>
-        </ya-scroll>
-        <template v-slot:fixed="{ vo }">
-          <div class="title">
-            {{ vo.title }}
-            <div class="bottom">{{ vo.title }}</div>
-            <div class="name">{{ vo.name }}</div>
-          </div>
-        </template>
-      </ya-sticky>
-    </div>
+    <ya-sticky ref="sticky">
+      <template v-for="(item, i) in list">
+        <ya-sticky-ele :vo="item.sticky" :key="i">
+          <template>
+            <div class="ya-sticky-ele-title">
+              {{ item.sticky.title }}
+            </div>
+          </template>
+        </ya-sticky-ele>
+        <div :key="i + 'txt'" class="content">
+          <div class="txt">{{ item.txt }}</div>
+        </div>
+      </template>
+      <template v-slot:fixed="{ vo }">
+        <div class="title">
+          {{ vo.title }}
+          <div class="bottom">{{ vo.title }}</div>
+          <div class="name">{{ vo.name }}</div>
+        </div>
+      </template>
+    </ya-sticky>
   </div>
 </template>
 
 <script>
-import YaSticky from '../../ya/sticky/sticky-old.vue';
+import YaSticky from '../../ya/sticky/sticky.vue';
 import YaStickyEle from '../../ya/sticky/sticky-ele.vue';
-import YaScroll from '../../ya/scroll/scroll.vue';
 import str from '../utils/str';
 export default {
   components: {
-    YaScroll,
     YaSticky,
     YaStickyEle
   },
@@ -52,8 +44,8 @@ export default {
   created() {},
   mounted() {
     str(300);
-    for (var i = 0; i < 10; i++) {
-      let getstr = str(400);
+    for (var i = 0; i < 6; i++) {
+      let getstr = str(200);
       this.list.push({
         sticky: {
           title: `---${getstr.substring(0, 5)}---`,
@@ -63,8 +55,7 @@ export default {
       });
     }
     this.$nextTick(() => {
-      console.log('nexttick----');
-      this.$refs.scroll.refresh();
+      this.$refs.sticky.refresh();
     });
   },
   beforeCreate() {}, // 生命周期 - 创建之前
@@ -90,12 +81,12 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgb(241, 242, 243);
-  position: absolute;
-  .sticky-c {
-    width: 100%;
-    height: 100%;
-    background-color: antiquewhite;
-  }
+  position: fixed;
+  // .sticky-c {
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: antiquewhite;
+  // }
 }
 .title {
   text-align: center;

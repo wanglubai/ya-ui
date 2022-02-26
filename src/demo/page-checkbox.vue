@@ -1,7 +1,13 @@
 <template>
   <div class="page-checkout">
-    <YaCheckout :vo="dataVo" @change="changeAction" />
+    <YaCheckout :vo="{ disabled: true, state: false, label: '不可点击按钮' }" />
+    <div class="console">disabled=true;state=false</div>
+
+    <YaCheckout :vo="{ disabled: true, state: true, label: '可点击按钮' }" />
+    <div class="console">disabled=true;state=true</div>
+
     <ya-checkbox-group v-model="list" :vo="list"></ya-checkbox-group>
+    <div class="console">group->{{ getList }}</div>
   </div>
 </template>
 
@@ -16,36 +22,42 @@ export default {
   props: {},
   data() {
     return {
-      dataVo: {
-        state: false,
-        label: '牛逼'
-      },
       list: [
         {
           state: false,
-          label: '牛逼'
+          label: 'checkbox1',
+          param: { val: '携带参数' }
         },
         {
           state: false,
-          label: '牛逼1'
+          label: 'checkbox2',
+          param: { val: '携带参数' }
         },
         {
           state: false,
-          label: '牛逼2'
+          label: 'checkbox3',
+          param: { val: '携带参数' }
         }
       ]
     };
   },
-  computed: {},
-  watch: {},
+  computed: {
+    getList(){
+      return JSON.stringify(this.list);
+    }
+  },
+  watch: {
+    list() {
+      console.log('111');
+    }
+  },
   methods: {
     changeAction() {
       console.log(this.dataVo);
     }
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   beforeCreate() {}, // 生命周期 - 创建之前
   beforeMount() {}, // 生命周期 - 挂载之前
   beforeUpdate() {}, // 生命周期 - 更新之前
@@ -57,4 +69,18 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.page-checkout {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 50px;
+  .console {
+    margin: 10px 0px 40px 10px;
+    color: #999;
+    word-break: break-all;
+    line-height: 30px;
+    font-size: 12px;
+  }
+}
 </style>

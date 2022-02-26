@@ -1,8 +1,7 @@
-const Event_Toggle = 'toggle'
 export default {
     model: {
         prop: 'visible',
-        event: Event_Toggle
+        event: 'visibleChange'
     },
     props: {
         visible: {
@@ -12,12 +11,12 @@ export default {
     },
     data() {
         return {
-            isVisible: this.visible
+            selfVisible: this.visible
         }
     },
     watch: {
-        isVisible(newVal) {
-            this.$emit(Event_Toggle, newVal);
+        selfVisible(newVal) {
+            this.$emit('visibleChange', newVal);
         }
     },
     mounted() {
@@ -31,10 +30,10 @@ export default {
     },
     methods: {
         show() {
-            this.isVisible = true;
+            this.selfVisible = true;
         },
         hide() {
-            this.isVisible = false;
+            this.selfVisible = false;
         }
     }
 }

@@ -1,8 +1,12 @@
 <template>
-  <div class="ya-sticky" ref="scroll">
-    <div class="ya-sticky-content">
-      <slot></slot>
+  <div class="ya-sticky">
+    <!-- 滚动容器 -->
+    <div class="ya-sticky-scroll" ref="scroll">
+      <div class="ya-sticky-content">
+        <slot></slot>
+      </div>
     </div>
+    <!-- 头部展示条 -->
     <div class="ya-sticky-fixed" v-if="curChildVo">
       <slot name="fixed" :vo="curChildVo">
         <div class="ya-sticky-fixed-title" v-if="curChildVo.ya">
@@ -27,8 +31,10 @@ export default {
       default() {
         return {
           scrollY: true,
+          scrollX: false,
           click: true,
-          probeType: 3
+          probeType: 2,
+          bounce: false
         };
       }
     }
@@ -46,11 +52,17 @@ export default {
   mounted() {
     this.init();
   },
+  destroyed() {
+    if (this.scroll) {
+      this.scroll.destroy();
+      this.scroll = null;
+    }
+  },
   methods: {
     init() {
       if (this.scroll == null) {
         this.scroll = new BScroll(this.$refs.scroll, this.config);
-        this.scroll.on('scroll', this.refreshPositionFun);
+        this.scroll.on('scroll', this.setGapy);
       }
     },
     remove(instance) {
@@ -65,7 +77,8 @@ export default {
         console.log('ref');
       }
     },
-    refreshPositionFun(e) {
+    setGapy(e) {
+      console.log(e);
       this.gapY = -e.y;
       this.checkSticky();
     },
@@ -94,29 +107,32 @@ export default {
 
 <style lang='less' scoped>
 .ya-sticky {
+  position: relative;
+  height: 100%;
+}
+.ya-sticky-scroll {
   width: 100%;
   height: 100%;
-  position: relative;
   .ya-sticky-content {
     width: 100%;
     height: auto;
   }
-  .ya-sticky-fixed {
+}
+.ya-sticky-fixed {
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #666;
+  .ya-sticky-fixed-title {
     width: 100%;
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    .ya-sticky-fixed-title {
-      width: 100%;
-      height: 40px;
-      background-color: #666;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    height: 40px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

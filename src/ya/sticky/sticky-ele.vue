@@ -1,10 +1,8 @@
 <template>
   <div class="ya-sticky-ele">
-    <div class="ya-sticky-content">
-      <slot :vo="vo">
-        <div class="ya-sticky-h" v-show="vo.ya">{{ vo.ya }}</div>
-      </slot>
-    </div>
+    <slot :vo="vo">
+      <div class="ya-sticky-h" v-show="vo.ya">{{ vo.ya }}</div>
+    </slot>
   </div>
 </template>
 
@@ -70,6 +68,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.ya-sticky-ele{
+  width: 100%;
+  height: 100%;
+}
 .ya-sticky-h {
   width: 100%;
   height: 40px;
@@ -78,10 +80,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .ya-sticky-content{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 </style>

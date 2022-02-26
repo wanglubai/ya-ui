@@ -1,17 +1,40 @@
 <template>
-  <div></div>
+  <div>
+    <div class="pop">
+      <ya-button @click="clickAction('center')">center</ya-button>
+       <ya-button @click="clickAction('top')">top</ya-button>
+      <ya-button @click="clickAction('left')">left</ya-button>
+      <ya-button @click="clickAction('right')">right</ya-button>
+      <ya-button @click="clickAction('bottom')">bottom</ya-button>
+    </div>
+    <ya-popup v-model="visible" :position="position">
+      <div class="msg">
+        <p>{{ position }}</p>
+      </div>
+    </ya-popup>
+  </div>
 </template>
 
 <script>
+import YaButton from '../ya/button/button.vue';
+import YaPopup from '../ya/popup/popup.vue';
 export default {
-  components: {},
+  components: { YaButton, YaPopup },
   props: {},
   data() {
-    return {};
+    return {
+      visible: false,
+      position: 'center'
+    };
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    clickAction(v) {
+      this.position = v;
+      this.visible = true;
+    }
+  },
   created() {},
   mounted() {},
   beforeCreate() {}, // 生命周期 - 创建之前
@@ -25,4 +48,22 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.pop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 100px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.msg {
+  padding: 20px;
+  background-color: aliceblue;
+  p {
+    padding: 10px;
+  }
+}
 </style>

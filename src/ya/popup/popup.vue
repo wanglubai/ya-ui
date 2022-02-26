@@ -1,5 +1,6 @@
 <template>
-  <div class="ya-popup" :style="{ 'z-index': zIndex }" v-show="isVisible">
+  <div class="ya-popup" :style="{ 'z-index': zIndex }" v-show="selfVisible">
+    <!-- mask设置 -->
     <div
       v-if="mask"
       class="ya-popup-mask"
@@ -8,7 +9,8 @@
     >
       <slot name="mask"></slot>
     </div>
-    <div class="ya-popup-container" @touchmove.prevent :class="positionCls">
+    <!-- 容器 -->
+    <div class="ya-popup-container" @touchmove.prevent :class="getPosClass">
       <div class="ya-popup-content" v-if="$slots.default">
         <slot></slot>
       </div>
@@ -23,13 +25,21 @@
 //position->对齐方式
 //maskClosable-> 是否遮罩关闭
 import visibilityMixin from '../common/mixins/visibility';
-import popupMixin from '../common/mixins/popup';
 
 const Event_Mask_Click = 'mask_click';
 export default {
   name: 'ya-popup',
-  mixins: [popupMixin, visibilityMixin],
+  mixins: [visibilityMixin],
   props: {
+    zIndex: {
+      type: Number,
+      default: 100
+    },
+    // 遮罩是否可关闭
+    maskClosable: {
+      type: Boolean,
+      default: true
+    },
     mask: {
       type: Boolean,
       default: true
@@ -44,7 +54,7 @@ export default {
     }
   },
   computed: {
-    positionCls() {
+    getPosClass() {
       return {
         [`ya-popup-${this.position}`]: true
       };
@@ -62,7 +72,9 @@ export default {
 </script>
 
 <style lang='less' scoped>
-@import '../common/css/variable.less';
+@popup-mask-bgc: rgb(37, 38, 45);
+@popup-mask-opacity: 0.4;
+
 .ya-popup {
   position: fixed;
   left: 0;

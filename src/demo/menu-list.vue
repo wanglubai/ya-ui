@@ -95,6 +95,8 @@ export default {
   color: #999;
   background: #f7f7f7;
   position: relative;
+  width: 100%;
+  height: 100%;
   &::after {
     content: 'ya';
     position: absolute;

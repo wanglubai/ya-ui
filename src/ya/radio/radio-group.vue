@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <ya-radio-group
+  <div class="ya-radio-group">
+    <ya-radio
       v-for="(item, i) in vo"
       :key="i"
       :vo="item"
-      v-model="value"
-    ></ya-radio-group>
+    ></ya-radio>
   </div>
 </template>
 
 <script>
-import YaRadioGroup from './radio.vue';
+import YaRadio from './radio.vue';
 export default {
+  name:'ya-radio',
   components: {
-    YaRadioGroup
+    YaRadio
   },
   props: {
     vo: {
@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      dataVo: this.vo,
+      dataVo: this.vo
     };
   },
   computed: {},
@@ -44,4 +44,6 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.ya-radio-group {
+}
 </style>

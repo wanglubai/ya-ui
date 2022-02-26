@@ -20,6 +20,15 @@ export default [
         component: () => import('../page-button.vue')
     },
     {
+        path: '/popup',
+        name: 'popup',
+        meta: {
+            title: 'popup',
+            type: "Base组件"
+        },
+        component: () => import('../page-popup.vue')
+    },
+    {
         path: '/tab-bar',
         name: 'tab-bar',
         meta: {
@@ -48,6 +57,10 @@ export default [
     {
         path: '/radio',
         name: 'radio',
+        meta: {
+            title: 'radio',
+            type: "From组件"
+        },
         component: () => import('../page-radio.vue')
     },
     {

@@ -1,39 +1,40 @@
 <template>
   <div class="page-checkout">
-    <YaCheckout :vo="dataVo" @change="changeAction" />
-    <ya-checkbox-group v-model="list" :vo="list"></ya-checkbox-group>
+    <ya-radio />
+    <ya-radio />
+    <ya-radio-group></ya-radio-group>
   </div>
 </template>
 
 <script>
-import YaCheckout from '../ya/radio/radio.vue';
-import YaCheckboxGroup from '../ya/radio/radio-group.vue';
+import YaRadio from '../ya/radio/radio.vue';
+import YaRadioGroup from '../ya/radio/radio-group.vue';
 export default {
   components: {
-    YaCheckout,
-    YaCheckboxGroup
+    YaRadio,
+    YaRadioGroup
   },
   props: {},
   data() {
     return {
       dataVo: {
-        id:1,
+        id: 1,
         state: false,
         label: '牛逼'
       },
       list: [
         {
-          id:2,
+          id: 2,
           state: false,
           label: '牛逼'
         },
         {
-          id:2,
+          id: 2,
           state: false,
           label: '牛逼1'
         },
         {
-          id:2,
+          id: 2,
           state: false,
           label: '牛逼2'
         }
@@ -48,8 +49,7 @@ export default {
     }
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   beforeCreate() {}, // 生命周期 - 创建之前
   beforeMount() {}, // 生命周期 - 挂载之前
   beforeUpdate() {}, // 生命周期 - 更新之前
