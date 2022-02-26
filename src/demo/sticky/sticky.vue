@@ -21,7 +21,7 @@
         <template v-slot:fixed="{ vo }">
           <div class="title">
             {{ vo.title }}
-            <div class="bottom">{{vo.title}}</div>
+            <div class="bottom">{{ vo.title }}</div>
             <div class="name">{{ vo.name }}</div>
           </div>
         </template>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import YaSticky from '../../ya/sticky/sticky.vue';
+import YaSticky from '../../ya/sticky/sticky-old.vue';
 import YaStickyEle from '../../ya/sticky/sticky-ele.vue';
 import YaScroll from '../../ya/scroll/scroll.vue';
 import str from '../utils/str';
@@ -62,9 +62,9 @@ export default {
         txt: getstr
       });
     }
-    console.log(this.list);
     this.$nextTick(() => {
-      console.log(this.$refs.scroll.refresh());
+      console.log('nexttick----');
+      this.$refs.scroll.refresh();
     });
   },
   beforeCreate() {}, // 生命周期 - 创建之前

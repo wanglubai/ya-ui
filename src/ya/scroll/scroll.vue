@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// https://github.com/ustbhuangyi/better-scroll
 import BScroll from 'better-scroll';
 import YaLoading from '../loading/loading.vue';
 
@@ -68,7 +67,6 @@ export default {
   },
   watch: {
     vo() {
-      console.log('vo变化');
       if (this.upLoading) {
         this.upRefresh();
         return;
@@ -149,6 +147,7 @@ export default {
   created() {},
   mounted() {
     this.$nextTick(() => {
+      console.log(scroll);
       this.initScroll();
     });
   },

@@ -60,6 +60,8 @@ export default {
   mounted() {
     this.tuid = tuid++;
     this.sticky.add(this);
+
+    console.log('elel');
   },
   beforeDestroy() {
     this.sticky.remove(this);

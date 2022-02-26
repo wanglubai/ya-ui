@@ -1,8 +1,6 @@
 <template>
-  <div class="ya-sticky" ref="scroll">
-    <div class="ya-sticky-content">
-      <slot></slot>
-    </div>
+  <div class="ya-sticky">
+    <slot></slot>
     <div class="ya-sticky-fixed" v-if="curChildVo">
       <slot name="fixed" :vo="curChildVo">
         <div class="ya-sticky-fixed-title" v-if="curChildVo.ya">
@@ -14,58 +12,30 @@
 </template>
 
 <script>
-import BScroll from '@better-scroll/core';
 export default {
   name: 'ya-sticky',
   provide() {
     return { sticky: this };
   },
   components: {},
-  props: {
-    config: {
-      type: Object,
-      default() {
-        return {
-          scrollY: true,
-          click: true,
-          probeType: 3
-        };
-      }
-    }
-  },
+  props: {},
   data() {
     return {
-      scroll: null,
       gapY: 0,
-      curChildVo: null, //当前对象数据
+      curChildVo: null,
       childrenList: [] //子对实例列表
     };
   },
   computed: {},
   watch: {},
-  mounted() {
-    this.init();
-  },
   methods: {
-    init() {
-      if (this.scroll == null) {
-        this.scroll = new BScroll(this.$refs.scroll, this.config);
-        this.scroll.on('scroll', this.refreshPositionFun);
-      }
-    },
     remove(instance) {
       this.childrenList.push(instance);
     },
     add(instance) {
       this.childrenList.push(instance);
     },
-    refresh() {
-      if (this.scroll) {
-        this.scroll.refresh();
-        console.log('ref');
-      }
-    },
-    refreshPositionFun(e) {
+    setPos(e) {
       this.gapY = -e.y;
       this.checkSticky();
     },
@@ -94,13 +64,8 @@ export default {
 
 <style lang='less' scoped>
 .ya-sticky {
-  width: 100%;
   height: 100%;
   position: relative;
-  .ya-sticky-content {
-    width: 100%;
-    height: auto;
-  }
   .ya-sticky-fixed {
     width: 100%;
     z-index: 1;

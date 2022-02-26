@@ -1,23 +1,19 @@
 <template>
   <div class="list">
-    <ya-sticky>
-      <ya-scroll>
-        <div class="">
-          <template v-for="(item, i) in menu">
-            <ya-sticky-ele :key="i" :vo="item">
-              <div class="sticky-head">{{ item.name }}</div>
-            </ya-sticky-ele>
-            <div
-              class="sticky-item"
-              v-for="(menuItem, vi) in item.menu"
-              :key="i + '-' + vi"
-              @click="clickAction(menuItem)"
-            >
-              {{ menuItem.name }}
-            </div>
-          </template>
+    <ya-sticky ref="sticky">
+      <template v-for="(item, i) in menu">
+        <ya-sticky-ele :key="i" :vo="item">
+          <div class="sticky-head">{{ item.name }}</div>
+        </ya-sticky-ele>
+        <div
+          class="sticky-item"
+          v-for="(menuItem, vi) in item.menu"
+          :key="i + '-' + vi"
+          @click="clickAction(menuItem)"
+        >
+          {{ menuItem.name }}
         </div>
-      </ya-scroll>
+      </template>
       <template v-slot:fixed="{ vo }">
         <div class="sticky-head">{{ vo.name }}</div>
       </template>
@@ -28,11 +24,9 @@
 <script>
 import YaSticky from '../ya/sticky/sticky.vue';
 import YaStickyEle from '../ya/sticky/sticky-ele.vue';
-import YaScroll from '../ya/scroll/scroll.vue';
 import RouterConfig from './config/route.js';
 export default {
   components: {
-    YaScroll,
     YaSticky,
     YaStickyEle
   },
@@ -67,12 +61,15 @@ export default {
           }
         }
       });
-      this.menu = [base, from,effect];
+      this.menu = [base, from, effect];
     }
   },
   created() {},
   mounted() {
     this.init();
+    this.$nextTick(() => {
+      this.$refs.sticky.refresh();
+    });
   },
   beforeCreate() {}, // 生命周期 - 创建之前
   beforeMount() {}, // 生命周期 - 挂载之前
@@ -97,11 +94,11 @@ export default {
   font-size: 16px;
   color: #999;
   background: #f7f7f7;
-  position:relative;
-  &::after{
+  position: relative;
+  &::after {
     content: 'ya';
     position: absolute;
-    opacity: .2;
+    opacity: 0.2;
     right: 20px;
   }
 }
@@ -117,8 +114,8 @@ export default {
   &::before {
     content: '>';
     position: absolute;
-    color: rgba(a, a, a, .3);
-    opacity: .5;
+    color: rgba(a, a, a, 0.3);
+    opacity: 0.5;
     right: 30px;
   }
 }

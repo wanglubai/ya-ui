@@ -51,11 +51,6 @@ export default [
         component: () => import('../page-radio.vue')
     },
     {
-        path: '/rate',
-        name: 'rate',
-        component: () => import('../page-rate.vue')
-    },
-    {
         path: '/textarea',
         name: 'textarea',
         meta: {

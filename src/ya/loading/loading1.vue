@@ -1,26 +1,21 @@
 <template>
-  <div>
-      <button @click="stickyAction">sticky</button>
+  <div class="ya-loading1">
+    <span v-for="i in str" :key="i">{{ i }}</span>
   </div>
 </template>
 
 <script>
-import button from '../ya/button/button.vue';
 export default {
-  components: {
-    button
-  },
+  components: {},
   props: {},
   data() {
-    return {};
+    return {
+      str: 'ya-ui'
+    };
   },
   computed: {},
   watch: {},
-  methods: {
-      stickyAction(){
-          // this.#$router.push({name:});
-      }
-  },
+  methods: {},
   created() {},
   mounted() {},
   beforeCreate() {}, // 生命周期 - 创建之前
@@ -34,4 +29,22 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.ya-loading1 {
+  :nth-child(1) {
+    animation: ani 2s  linear 2 infinite;
+  }
+}
+@keyframes ani {
+  0% {
+    color: antiquewhite;
+    transform: scale(0);
+  }
+  50% {
+    color: aqua;
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
 </style>

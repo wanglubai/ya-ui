@@ -1,13 +1,17 @@
 <template>
   <div>
-      loading...
+      <ya-loading></ya-loading>
+      <ya-loading1></ya-loading1>
   </div>
 </template>
 
 <script>
-
+import YaLoading from '../ya/loading/loading.vue'
+import YaLoading1 from '../ya/loading/loading1.vue'
 export default {
   components: {
+    YaLoading,
+    YaLoading1
   },
   props:{
   },

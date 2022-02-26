@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import YaSticky from './ya/sticky/sticky.vue';
+import YaSticky from './ya/sticky/sticky-old.vue';
 import YaStickyEle from './ya/sticky/sticky-ele.vue';
 import YaScroll from './ya/scroll/scroll.vue';
 import './ya/common/css/reset.less';
