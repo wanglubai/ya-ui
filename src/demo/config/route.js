@@ -100,6 +100,15 @@ export default [
         component: () => import('../page-slide.vue')
     },
     {
+        path: '/picker',
+        name: 'picker',
+        meta: {
+            title: 'picker',
+            type: "Effect组件"
+        },
+        component: () => import('../page-picker.vue')
+    },
+    {
         path: '/rate',
         name: 'rate',
         meta: {

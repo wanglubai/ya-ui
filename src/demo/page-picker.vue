@@ -1,39 +1,39 @@
 <template>
-  <div class="ya-action">
-    <ya-button @click="clickAction">点击列表</ya-button>
-    <div class="console">console->{{ msg }}</div>
-    <ya-action-sheet
-      :vo="list"
-      v-model="visible"
+  <div class="page-picker">
+    <ya-button @click="clickAction">选择一种水果</ya-button>
+    <div class="msg">{{ msg }}</div>
+    <ya-picker
+      ref="picker"
       @change="changeAction"
-    ></ya-action-sheet>
+      :vo="list"
+    ></ya-picker>
   </div>
 </template>
 
 <script>
-import YaActionSheet from '../ya/action-sheet/action-sheet.vue';
 import YaButton from '../ya/button/button.vue';
+import YaPicker from '../ya/picker/picker.vue';
 export default {
   components: {
-    YaActionSheet,
-    YaButton
+    YaButton,
+    YaPicker
   },
   props: {},
   data() {
     return {
-      list: [{ ya: '流浪地球' }, { ya: '三体' }, { ya: '天龙八部' }, { ya: '球形闪电' }],
-      visible: false,
-      msg: ''
+      msg: '--',
+      list: ['草莓', '菠萝', '苹果', '大鸭梨', '车厘子', '葡萄']
     };
   },
   computed: {},
   watch: {},
   methods: {
-    changeAction(v) {
-      this.msg = v.ya;
+    changeAction(e) {
+      this.msg = this.list[e];
     },
     clickAction() {
       this.visible = true;
+      this.$refs.picker.show();
     }
   },
   created() {},
@@ -49,18 +49,25 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.ya-action {
-  padding: 50px;
-  position: fixed;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.page-picker {
+  position: absolute;
   width: 100%;
   height: 100%;
-}
-.console{
-  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 100px;
+  flex-direction: column;
+  .page-picker-content {
+    width: 500px;
+    height: 160px;
+    background-color: #fff;
+  }
+  .msg {
+    margin-top: 100px;
+    font-size: 20px;
+    margin-top: 20px;
+  }
 }
 </style>

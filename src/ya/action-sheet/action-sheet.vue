@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <ya-popup class="ya-action-sheet-popup" :visible="true" position="bottom" v-if="isVisible">
+    <ya-popup class="ya-action-sheet-popup" :visible="true" position="bottom" v-if="selfVisible">
       <div class="ya-action-sheet">
         <div class="ya-action-sheet-title">请选择列表</div>
         <ul class="ya-action-sheet-list">
@@ -9,6 +9,7 @@
             v-for="(item, i) in vo"
             :key="i"
             v-html="item.ya"
+            @click="clickAction(item)"
           ></li>
         </ul>
         <div class="ya-action-sheet-space"></div>
@@ -39,6 +40,10 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    clickAction(e){
+      this.$emit('change',e);
+      this.hide();
+    },
     cancelAction(){
       this.hide();
     }
@@ -57,6 +62,7 @@ export default {
 
 <style lang='less' scoped>
 @import url('./action-sheet.less');
+@color: #fc9153;
 .ya-action-sheet {
   background-color: #fff;
   width: 100vw;
@@ -80,6 +86,10 @@ export default {
     background-color: #fff;
 
     border-bottom: .5px solid @action-sheet-space-bgc;
+  }
+  .ya-action-sheet-title{
+    color: @color;
+    font-size: 12px;
   }
   .ya-action-sheet-space {
     height: 6px;

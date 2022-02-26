@@ -1,6 +1,6 @@
 <template>
-  <ya-popup :maskClosable='true' v-model="isVisible">
-    <div class="ya-imags-slide" v-if="isVisible">
+  <ya-popup :maskClosable='true' v-model="selfVisible">
+    <div class="ya-imags-slide" v-if="selfVisible">
       <ya-slide :vo="vo"></ya-slide>
     </div>
   </ya-popup>

@@ -69,14 +69,13 @@ export default {
   text-align: left;
   font-size: 100%;
   color: @font-color;
-  background-color: @bg-color;
+  // background-color: @bg-color;
   box-sizing: border-box;
   width: 100%;
   padding: 10px 16px 10px 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 10px;
   .ya-checkbox-input {
     z-index: 1;
     position: absolute;

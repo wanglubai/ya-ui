@@ -11,7 +11,7 @@
     <ya-button :vo="{ primary: true, outline: true, icon: 'ya-info' }">
       icon
     </ya-button>
-    <ya-button> <ya-checkbox :vo="{ state: true,label:'checkbox' }"></ya-checkbox> </ya-button>
+    <ya-button :vo='{light:true}'> <ya-checkbox :vo="{ state: true,label:'checkbox' }"></ya-checkbox> </ya-button>
   </div>
 </template>
 

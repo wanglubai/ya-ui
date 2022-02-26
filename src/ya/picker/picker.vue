@@ -1,42 +1,49 @@
 <template>
-  <div class="c">
-    <div class="mask-top"></div>
-    <div class="mask-bottom"></div>
-    <div ref="scroll" class="ya-picker">
-      <slot>
-        <ul class="ya-picker-list">
-          <li
-            class="ya-picker-item"
-            v-for="item in vo"
-            :key="item"
-            @click="clickItemAction"
-          >
-            {{ item }}
-          </li>
-        </ul>
-      </slot>
+  <ya-popup position="bottom" v-model="selfVisible">
+    <div class="ya-picker-c">
+      <div class="mask-top"></div>
+      <div class="mask-bottom"></div>
+
+      <div ref="scroll" class="ya-picker">
+        <slot>
+          <ul class="ya-picker-list">
+            <li class="ya-picker-item" v-for="item in vo" :key="item">
+              {{ item }}
+            </li>
+          </ul>
+        </slot>
+      </div>
+
+      <div class="ya-picker-cancel" @click="cancelAction">取消</div>
+      <div class="ya-picker-ok" @click="okAction">确认</div>
     </div>
-  </div>
+  </ya-popup>
 </template>
 
 <script>
-import BScroll from 'better-scroll';
+import BScroll from '@better-scroll/core';
+import Wheel from '@better-scroll/wheel';
+import YaPopup from '../popup/popup.vue';
+BScroll.use(Wheel);
+
 export default {
   name: 'ya-picker',
-  components: {},
+  components: { YaPopup },
   props: {
+    vo: [],
     options: {
       type: Object,
       default() {
         return {
           wheel: {
-            selectedIndex: 1,
+            selectedIndex: 0,
             wheelWrapperClass: 'ya-picker-list',
             wheelItemClass: 'ya-picker-item',
             wheelDisabledItemClass: 'ya-picker-disabled-item',
             adjustTime: 400,
             rotate: 20
           },
+          click: false,
           useTransition: false,
           probeType: 3
         };
@@ -45,13 +52,26 @@ export default {
   },
   data() {
     return {
-      selectedIndex: 2,
-      vo: []
+      selfVisible: false
     };
   },
   computed: {},
   watch: {},
   methods: {
+    cancelAction() {
+      this.selfVisible = false;
+    },
+    okAction() {
+      this.selfVisible = false;
+      this.$emit('change', this.getSelectedIndex());
+    },
+    show() {
+      this.selfVisible = true;
+      this.$nextTick(() => {
+        this.initScroll();
+        console.log('111');
+      });
+    },
     getScroll() {
       return this.scroll;
     },
@@ -63,47 +83,36 @@ export default {
         this.scroll.wheelTo(index, delay);
       }
     },
-    initScroll() {
-      if (!this.$refs.scroll) {
-        return;
+    refresh() {
+      if (this.scroll) {
+        console.log('refresh');
+        this.scroll.refresh();
       }
+    },
+    initScroll() {
+      if (this.scroll) return;
       this.scroll = new BScroll(this.$refs.scroll, this.options);
-      this.scroll.refresh();
       this.initScrollEvents();
     },
-    clickItemAction() {},
     initScrollEvents() {
-      const list = ['wheelIndexChanged','scrollEnd'];
-      list.forEach((name) => {
-        this.scroll.on(name, (e) => {
-          console.log(this.scroll.getSelectedIndex(),e);
-          this.$emit(name);
-        });
-      });
     }
   },
-  created() {},
-  mounted() {
-    for (var i = 1; i < 10; i++) {
-      this.vo.push(`${i}`);
+  mounted() {},
+  destroyed() {
+    if (this.scroll) {
+      this.scroll.destroy();
+      this.scroll = null;
     }
-    this.$nextTick(() => {
-      this.initScroll();
-    });
-  },
-  beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {}, // 生命周期 - 挂载之前
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  updated() {}, // 生命周期 - 更新之后
-  beforeDestroy() {}, // 生命周期 - 销毁之前
-  destroyed() {}, // 生命周期 - 销毁完成
-  activated() {} // 如果页面有keep-alive缓存功能，这个函数会触发
+  }
 };
 </script>
 
 <style lang='less' scoped>
-.c {
+.ya-picker-c {
   position: relative;
+  width: 100vw;
+  box-sizing: border-box;
+  background-color: #fff;
   .mask-top,
   .mask-bottom {
     z-index: 10;
@@ -135,50 +144,30 @@ export default {
     );
   }
 }
-// .border-bottom-1px,
-// .border-top-1px {
-//   position: relative;
-//   &:before,
-//   &:after {
-//     content: '';
-//     display: block;
-//     position: absolute;
-//     transform-origin: 0 0;
-//   }
-// }
-
-// .border-bottom-1px {
-//   &:after {
-//     border-bottom: 1px solid #ebebeb;
-//     left: 0;
-//     bottom: 0;
-//     width: 100%;
-//     transform-origin: 0 bottom;
-//   }
-// }
-
-// .border-top-1px {
-//   &:before {
-//     border-top: 1px solid #ebebeb;
-//     left: 0;
-//     top: 0;
-//     width: 100%;
-//     transform-origin: 0 top;
-//   }
-// }
 .ya-picker {
   height: 166px;
   overflow: hidden;
+  pointer-events: initial;
   .ya-picker-list {
     margin-top: 68px;
   }
   .ya-picker-item {
     height: 30px;
+    width: auto;
     text-align: center;
     line-height: 30px;
   }
 }
-.ya-picker-disabled-item {
-  background-color: #ff0000;
+.ya-picker-cancel {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: #fc9153;
+}
+.ya-picker-ok {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #fc9153;
 }
 </style>
