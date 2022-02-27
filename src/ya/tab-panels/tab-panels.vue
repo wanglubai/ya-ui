@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     _move() {
-      console.log(this.index);
       this.$nextTick(() => {
         const group = this.$refs.panelsGroup;
         const distance = -(this.index * 100);

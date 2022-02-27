@@ -1,24 +1,22 @@
 <template>
-  <div class="list">
-    <ya-sticky ref="sticky">
-      <template v-for="(item, i) in menu">
-        <ya-sticky-ele :key="i" :vo="item">
-          <div class="sticky-head">{{ item.name }}</div>
-        </ya-sticky-ele>
-        <div
-          class="sticky-item"
-          v-for="(menuItem, vi) in item.menu"
-          :key="i + '-' + vi"
-          @click="clickAction(menuItem)"
-        >
-          {{ menuItem.name }}
-        </div>
-      </template>
-      <template v-slot:fixed="{ vo }">
-        <div class="sticky-head">{{ vo.name }}</div>
-      </template>
-    </ya-sticky>
-  </div>
+  <ya-sticky ref="sticky" class="list-sticky">
+    <template v-for="(item, i) in menu">
+      <ya-sticky-ele :key="i" :vo="item">
+        <div class="sticky-head">{{ item.name }}</div>
+      </ya-sticky-ele>
+      <div
+        class="sticky-item"
+        v-for="(menuItem, vi) in item.menu"
+        :key="i + '-' + vi"
+        @click="clickAction(menuItem)"
+      >
+        {{ menuItem.name }}
+      </div>
+    </template>
+    <template v-slot:fixed="{ vo }">
+      <div class="sticky-head-fixed">{{ vo.name }}</div>
+    </template>
+  </ya-sticky>
 </template>
 
 <script>
@@ -70,22 +68,15 @@ export default {
     this.$nextTick(() => {
       this.$refs.sticky.refresh();
     });
-  },
-  beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {}, // 生命周期 - 挂载之前
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  updated() {}, // 生命周期 - 更新之后
-  beforeDestroy() {}, // 生命周期 - 销毁之前
-  destroyed() {}, // 生命周期 - 销毁完成
-  activated() {} // 如果页面有keep-alive缓存功能，这个函数会触发
+  }
 };
 </script>
 
 <style lang='less' scoped>
-.list {
+.list-sticky {
   width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   background-color: #fff;
 }
 .sticky-head {
@@ -94,15 +85,14 @@ export default {
   font-size: 16px;
   color: #999;
   background: #f7f7f7;
-  position: relative;
   width: 100%;
-  height: 100%;
-  &::after {
-    content: 'ya';
-    position: absolute;
-    opacity: 0.2;
-    right: 20px;
-  }
+}
+.sticky-head-fixed {
+  padding: 16px 16px 10px;
+  line-height: 1;
+  font-size: 16px;
+  color: #999;
+  background: #f7f7f7;
 }
 .sticky-item {
   height: 40px;
@@ -113,6 +103,7 @@ export default {
   width: 100%;
   border-bottom: 0.4px solid #ebebeb;
   position: relative;
+
   &::before {
     content: '>';
     position: absolute;

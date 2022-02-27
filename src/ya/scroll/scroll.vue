@@ -1,8 +1,10 @@
 <template>
-  <div ref="wrapper" class="ya-scroll-wrapper">
-    <div>
-      <ya-loading v-if="getDownLoading"></ya-loading>
-      <slot>
+  <div ref="scroll" class="ya-scroll">
+    <div class="ya-scroll-content">
+      <div class="ya-scroll-download" v-if="getDownLoading">
+        <ya-loading-4></ya-loading-4>
+      </div>
+      <slot :vo="vo">
         <ul class="ya-scroll-list">
           <li
             class="ya-scroll-item"
@@ -14,32 +16,40 @@
           </li>
         </ul>
       </slot>
-      <ya-loading v-if="getUpLoading"></ya-loading>
+      <div class="ya-scroll-upload" v-show="getUpLoading">
+        <ya-loading-2></ya-loading-2>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll';
-import YaLoading from '../loading/loading.vue';
+import BScroll from '@better-scroll/core';
+import Pullup from '@better-scroll/pull-up';
+import PullDown from '@better-scroll/pull-down';
 
-const Event_Click = 'click';
+BScroll.use(Pullup);
+BScroll.use(PullDown);
+
+import YaLoading4 from '../loading/loading4.vue';
+import YaLoading2 from '../loading/loading2.vue';
+
 export default {
-  components: { YaLoading },
-  inject: ['sticky'],
+  components: { YaLoading4, YaLoading2 },
   props: {
-    vo: [],
-    isShowUpLoading: {
-      type: Boolean,
-      default: false
+    vo: {
+      type: Array,
+      default() {
+        return [];
+      }
     },
     options: {
       type: Object,
       default() {
         return {
           scrollY: true,
-          probeType: 3,
-          click: true
+          pullDownRefresh: false,
+          pullUpLoad: false
         };
       }
     }
@@ -59,7 +69,7 @@ export default {
       return false;
     },
     getUpLoading() {
-      if (this.options.pullUpLoad && this.upLoading && this.isShowUpLoading) {
+      if (this.options.pullUpLoad && this.upLoading) {
         return true;
       }
       return false;
@@ -67,111 +77,99 @@ export default {
   },
   watch: {
     vo() {
-      if (this.upLoading) {
-        this.upRefresh();
-        return;
-      }
-      if (this.downLoading) {
-        this.downRefresh();
-        return;
-      }
-      this.$nextTick(() => {
-        this.scroll.refresh();
-      });
+      console.log(';');
+      this.refreshLoading();
+      this.refresh();
     }
   },
   methods: {
-    refresh() {
-      if (this.scroll) {
-        this.scroll.refresh();
-      }
-    },
-    clickItemAction(e) {
-      this.$emit(Event_Click, e);
-    },
-    initScroll() {
-      if (!this.$refs.wrapper) {
-        return;
-      }
-      this.scroll = new BScroll(this.$refs.wrapper, this.options);
-      this.scroll.refresh();
-      this.initScrollEvents();
-    },
-    //上滑动加载刷新
-    upRefresh() {
-      this.$nextTick(() => {
+    clickItemAction() {},
+    refreshLoading() {
+      if (this.upLoading) {
         this.upLoading = false;
         this.scroll.finishPullUp();
-        this.scroll.refresh();
-      });
-    },
-    //下拉刷新
-    downRefresh() {
-      this.$nextTick(() => {
+      }
+      if (this.downLoading) {
         this.downLoading = false;
-        this.scroll.refresh();
         this.scroll.finishPullDown();
+      }
+    },
+    refresh() {
+      this.$nextTick(() => {
+        if (this.scroll) {
+          this.scroll.refresh();
+        }
       });
     },
-    initScrollEvents() {
-      const list = [
-        'beforeScrollStart',
-        'scrollStart',
-        'scrollCancel',
-        'scrollEnd',
-        'scroll',
-        'refresh'
-      ];
-      this.options.pullDownRefresh && list.push('pullingDown');
-      this.options.pullUpLoad && list.push('pullingUp');
-      list.forEach((name) => {
-        this.scroll.on(name, (e) => {
-          switch (name) {
+    initScroll() {
+      if (this.scroll == null) {
+        this.scroll = new BScroll(this.$refs.scroll, this.options);
+        this.initEvents();
+        this.scroll.refresh();
+      }
+    },
+    initEvents() {
+      const list = [];
+      if (this.options.pullUpLoad) list.push('pullingUp');
+      if (this.options.pullDownRefresh) list.push('pullingDown');
+      list.forEach((v) => {
+        this.scroll.on(v, (e) => {
+          switch (v) {
             case 'pullingDown':
               this.downLoading = true;
               break;
             case 'pullingUp':
               this.upLoading = true;
               break;
-            case 'scroll':
-              if (this.sticky) {
-                this.sticky.setPos(e);
-              }
-              break;
           }
-          this.$emit(name, e);
+          console.log(v);
+          this.$emit(v, e);
         });
       });
     }
   },
-  created() {},
   mounted() {
     this.$nextTick(() => {
-      console.log(scroll);
       this.initScroll();
     });
   },
-  beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {}, // 生命周期 - 挂载之前
-  beforeUpdate() {}, // 生命周期 - 更新之前
-  updated() {}, // 生命周期 - 更新之后
-  beforeDestroy() {}, // 生命周期 - 销毁之前
-  destroyed() {}, // 生命周期 - 销毁完成
-  activated() {} // 如果页面有keep-alive缓存功能，这个函数会触发
+  destroyed() {
+    if (this.scroll) {
+      this.scroll.destroy();
+      this.scroll = null;
+    }
+  }
 };
 </script>
 
 <style lang='less' scoped>
-@import url('./scroll.less');
-.ya-scroll-wrapper {
+.ya-scroll {
   height: 100%;
   overflow: hidden;
-  position: relative;
+  .ya-scroll-content {
+    padding-bottom: 50px;
+  }
+  .ya-scroll-download,
+  .ya-scroll-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &::after {
+      content: '';
+      width: 10px;
+      height: 40px;
+      display: block;
+    }
+    &::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      display: block;
+    }
+  }
   .ya-scroll-item {
-    height: 60px;
     line-height: 60px;
-    font-size: @fontsize-large-x;
-    padding-left: 20px;
+    font-size: 12px;
   }
 }
 </style>

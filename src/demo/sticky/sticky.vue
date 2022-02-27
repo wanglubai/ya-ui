@@ -5,7 +5,7 @@
         <ya-sticky-ele :vo="item.sticky" :key="i">
           <template>
             <div class="ya-sticky-ele-title">
-              {{ item.sticky.title }}
+              ----{{ item.sticky.title }}----
             </div>
           </template>
         </ya-sticky-ele>
@@ -44,11 +44,11 @@ export default {
   created() {},
   mounted() {
     str(300);
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 8; i++) {
       let getstr = str(200);
       this.list.push({
         sticky: {
-          title: `---${getstr.substring(0, 5)}---`,
+          title: `${getstr.substring(0, 5)}`,
           name: '作者：哈利波特'
         },
         txt: getstr
@@ -82,11 +82,10 @@ export default {
   height: 100%;
   background-color: rgb(241, 242, 243);
   position: fixed;
-  // .sticky-c {
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: antiquewhite;
-  // }
+}
+.content{
+  padding: 20px;
+  box-sizing: border-box;
 }
 .title {
   text-align: center;
@@ -96,14 +95,15 @@ export default {
   padding-bottom: 20px;
   background-color: rgb(241, 242, 243);
   position: relative;
+  
   .bottom {
     position: fixed;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     font-size: 10px;
-    right: 30px;
-    bottom: 30px;
+    right: 20px;
+    top: 330px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -54,15 +54,15 @@ export default [
         },
         component: () => import('../page-checkbox.vue')
     },
-    {
-        path: '/radio',
-        name: 'radio',
-        meta: {
-            title: 'radio',
-            type: "From组件"
-        },
-        component: () => import('../page-radio.vue')
-    },
+    // {
+    //     path: '/radio',
+    //     name: 'radio',
+    //     meta: {
+    //         title: 'radio',
+    //         type: "From组件"
+    //     },
+    //     component: () => import('../page-radio.vue')
+    // },
     {
         path: '/textarea',
         name: 'textarea',

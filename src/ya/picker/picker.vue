@@ -69,7 +69,6 @@ export default {
       this.selfVisible = true;
       this.$nextTick(() => {
         this.initScroll();
-        console.log('111');
       });
     },
     getScroll() {
@@ -85,7 +84,6 @@ export default {
     },
     refresh() {
       if (this.scroll) {
-        console.log('refresh');
         this.scroll.refresh();
       }
     },

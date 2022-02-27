@@ -33,7 +33,10 @@
 
 <script>
 import YaSlideItem from './slide-item.vue';
-import Scroll from 'better-scroll';
+import BScroll from '@better-scroll/core';
+import Slide from '@better-scroll/slide';
+
+BScroll.use(Slide);
 export default {
   name: 'ya-slide',
   components: { YaSlideItem },
@@ -68,8 +71,7 @@ export default {
     };
   },
   computed: {},
-  watch: {
-  },
+  watch: {},
   methods: {
     refresh() {
       if (this.scroll) {
@@ -84,7 +86,7 @@ export default {
     },
     init() {
       if (this.scroll == null) {
-        this.scroll = new Scroll(this.$refs.slide, this.config);
+        this.scroll = new BScroll(this.$refs.slide, this.config);
         this.scroll.on('slidePageChanged', (e) => {
           this.curIndex = e.pageX;
           this.$emit('change', this.curIndex);

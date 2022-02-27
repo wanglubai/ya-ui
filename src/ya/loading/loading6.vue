@@ -7,6 +7,7 @@
 </template>
 
 <script>
+// https://www.runoob.com/w3cnote/free-html5-css3-loaders-preloaders.html
 export default {
   components: {},
   props: {

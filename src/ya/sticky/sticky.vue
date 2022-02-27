@@ -33,7 +33,7 @@ export default {
           scrollY: true,
           scrollX: false,
           click: true,
-          probeType: 2,
+          probeType: 3,
           bounce: false
         };
       }
@@ -74,11 +74,9 @@ export default {
     refresh() {
       if (this.scroll) {
         this.scroll.refresh();
-        console.log('ref');
       }
     },
     setGapy(e) {
-      console.log(e);
       this.gapY = -e.y;
       this.checkSticky();
     },
@@ -120,13 +118,13 @@ export default {
 }
 .ya-sticky-fixed {
   width: 100%;
-  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-color: #666;
+  transform: translateZ(1px);
   .ya-sticky-fixed-title {
+    background-color: #666;
     width: 100%;
     height: 40px;
     color: #000;

@@ -1,0 +1,24 @@
+<template>
+  <div class="ya-loading4"></div>
+</template>
+
+<style lang='less' scoped>
+.ya-loading4 {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(1, 1, 1, .5);
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+</style>

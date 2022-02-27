@@ -33,9 +33,7 @@ export default {
   },
   computed: {},
   watch: {
-    'dataVo.state'(e){
-      console.log(e);
-      console.log(this.dataVo);
+    'dataVo.state'(){
     }
   },
   methods: {},

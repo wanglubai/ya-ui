@@ -58,8 +58,6 @@ export default {
   mounted() {
     this.tuid = tuid++;
     this.sticky.add(this);
-
-    console.log('elel');
   },
   beforeDestroy() {
     this.sticky.remove(this);
@@ -70,7 +68,7 @@ export default {
 <style lang='less' scoped>
 .ya-sticky-ele{
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 .ya-sticky-h {
   width: 100%;

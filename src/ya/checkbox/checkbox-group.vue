@@ -52,7 +52,6 @@ export default {
           ele.state = vo.state;
         }
       });
-      console.log(JSON.stringify(this.dataVo));
       this.$emit('change', this.dataVo);
     }
   },
